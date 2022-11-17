@@ -22,13 +22,13 @@ public class MybatisConfig {
 
     @Bean(name = "dataSource")
     @ConfigurationProperties(prefix = "spring.datasource")
-    public DataSource DataSource() {
+    public DataSource dataSource() {
         return DataSourceBuilder.create().build();
     }
 
 
     @Bean(name = "SqlSessionFactory")
-    public SqlSessionFactory SqlSessionFactory(@Qualifier("dataSource") DataSource DataSource, ApplicationContext applicationContext) throws Exception {
+    public SqlSessionFactory sqlSessionFactory(@Qualifier("dataSource") DataSource DataSource, ApplicationContext applicationContext) throws Exception {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(DataSource);
         sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources(mPath));
@@ -36,7 +36,7 @@ public class MybatisConfig {
     }
 
     @Bean(name = "SessionTemplate")
-    public SqlSessionTemplate SqlSessionTemplate(@Qualifier("SqlSessionFactory") SqlSessionFactory firstSqlSessionFactory) {
+    public SqlSessionTemplate sqlSessionTemplate(@Qualifier("SqlSessionFactory") SqlSessionFactory firstSqlSessionFactory) {
         return new SqlSessionTemplate(firstSqlSessionFactory);
     }
 
