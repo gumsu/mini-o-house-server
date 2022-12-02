@@ -3,7 +3,11 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.minihouse.repository.UserRepository">
-  <select id="getAllUsers" resultType="com.minihouse.domain.User">
-    SELECT * FROM users;
-  </select>
+  <insert id="save" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO Users (name, nickname, email, password, phone, created_at, role)
+    VALUES (#{name}, #{nickname}, #{email}, #{password}, #{phone}, #{createdAt}, #{role})
+    <selectKey keyProperty="id" resultType="Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+  </insert>
 </mapper>
