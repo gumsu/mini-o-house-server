@@ -3,10 +3,8 @@ package com.minihouse.domain;
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
 public class User {
 
     private Long id;
