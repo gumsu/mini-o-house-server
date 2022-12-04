@@ -17,11 +17,10 @@ public class User {
     private String phone;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private String role;
 
     @Builder
     public User(Long id, String name, String nickname, String email, String password,
-        String phone, LocalDateTime createdAt, LocalDateTime updatedAt, String role) {
+        String phone, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.name = name;
         this.nickname = nickname;
@@ -30,6 +29,5 @@ public class User {
         this.phone = phone;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.role = role;
     }
 }

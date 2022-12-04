@@ -8,6 +8,5 @@ CREATE TABLE `users`
     `password`   varchar(255),
     `phone`      varchar(255),
     `created_at` timestamp,
-    `updated_at` timestamp,
-    `role`       varchar(255)
+    `updated_at` timestamp
 );

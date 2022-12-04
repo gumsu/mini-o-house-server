@@ -4,8 +4,8 @@
 
 <mapper namespace="com.minihouse.repository.UserRepository">
   <insert id="save" useGeneratedKeys="true" keyProperty="id">
-    INSERT INTO Users (name, nickname, email, password, phone, created_at, role)
-    VALUES (#{name}, #{nickname}, #{email}, #{password}, #{phone}, #{createdAt}, #{role})
+    INSERT INTO users (name, nickname, email, password, phone, created_at)
+    VALUES (#{name}, #{nickname}, #{email}, #{password}, #{phone}, #{createdAt})
     <selectKey keyProperty="id" resultType="Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
