@@ -4,6 +4,7 @@ import com.minihouse.domain.User;
 import com.minihouse.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -11,6 +12,7 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    @Transactional
     public Long signUp(User user) {
         userRepository.save(user);
         return user.getId();
