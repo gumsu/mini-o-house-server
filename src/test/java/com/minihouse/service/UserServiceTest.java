@@ -44,4 +44,27 @@ class UserServiceTest {
         then(userRepository).should().save(user);
         assertThat(user.getId()).isEqualTo(userId);
     }
+
+    @Test
+    @DisplayName("이미 존재하는 이메일인 경우 회원가입을 할 수 없다.")
+    void canNotSignUpExistEmail() {
+        // given
+        SignUpRequest signUpRequest = SignUpRequest.builder()
+            .name("kim")
+            .nickname("nick")
+            .password("1234")
+            .email("abc@test.com")
+            .phone("010-0000-0000")
+            .build();
+        User user = signUpRequest.toEntity();
+
+        given(userRepository.findByEmail(any(String.class))).willReturn(user);
+
+        // expected
+        assertThatThrownBy(() -> userService.signUp(user))
+            .isInstanceOf(IllegalArgumentException.class);
+
+        then(userRepository).should().findByEmail(user.getEmail());
+        then(userRepository).should(never()).save(user);
+    }
 }

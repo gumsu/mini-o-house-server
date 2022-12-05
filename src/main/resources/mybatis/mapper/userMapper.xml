@@ -10,4 +10,10 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
   </insert>
+
+  <select id="findByEmail" resultType="User">
+    SELECT *
+    FROM users
+    WHERE email = #{email}
+  </select>
 </mapper>

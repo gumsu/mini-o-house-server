@@ -14,7 +14,15 @@ public class UserService {
 
     @Transactional
     public Long signUp(User user) {
+        validSignUpUser(user);
         userRepository.save(user);
         return user.getId();
+    }
+
+    private void validSignUpUser(User user) {
+        User findUser = userRepository.findByEmail(user.getEmail());
+        if (findUser != null) {
+            throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
+        }
     }
 }
