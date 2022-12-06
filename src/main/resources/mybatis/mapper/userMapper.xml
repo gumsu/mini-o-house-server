@@ -11,7 +11,7 @@
     </selectKey>
   </insert>
 
-  <select id="findByEmail" resultType="User">
+  <select id="findByEmail" resultType="com.minihouse.domain.User">
     SELECT *
     FROM users
     WHERE email = #{email}
