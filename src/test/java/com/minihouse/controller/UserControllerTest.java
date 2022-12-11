@@ -1,7 +1,9 @@
 package com.minihouse.controller;
 
 import static org.mockito.BDDMockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -13,13 +15,18 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.restdocs.operation.preprocess.Preprocessors;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
-@ExtendWith(SpringExtension.class)
+@AutoConfigureRestDocs
+@ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @WebMvcTest(UserController.class)
 class UserControllerTest {
 
@@ -46,11 +53,22 @@ class UserControllerTest {
 
         given(userService.signUp(any(User.class))).willReturn(Long.valueOf(1));
 
-        // expected
-        mockMvc.perform(post("/api/v1/users/sign-up")
+        // when
+        ResultActions result = mockMvc.perform(post("/api/v1/users/sign-up")
             .content(objectMapper.writeValueAsString(request))
-            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
+            .contentType(MediaType.APPLICATION_JSON));
+
+        // then
+        result.andExpect(status().isOk())
+            .andDo(document("user-signup",
+                Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
+                Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+                requestFields(
+                    fieldWithPath("name").description("이름"),
+                    fieldWithPath("nickname").description("닉네임"),
+                    fieldWithPath("password").description("비밀번호"),
+                    fieldWithPath("email").description("이메일"),
+                    fieldWithPath("phone").description("전화번호"))))
             .andDo(print());
     }
 }

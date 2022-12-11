@@ -7,11 +7,15 @@ import lombok.Getter;
 @Getter
 public class SignUpRequest {
 
-    private final String name;
-    private final String nickname;
-    private final String email;
-    private final String password;
-    private final String phone;
+    private String name;
+    private String nickname;
+    private String email;
+    private String password;
+    private String phone;
+
+    public SignUpRequest() {
+
+    }
 
     @Builder
     public SignUpRequest(String name, String nickname, String email, String password, String phone) {
