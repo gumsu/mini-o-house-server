@@ -30,6 +30,9 @@ dependencies {
 	runtimeOnly 'mysql:mysql-connector-java:8.0.31'
 	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
 
+	implementation 'org.flywaydb:flyway-core'
+	implementation 'org.flywaydb:flyway-mysql'
+
 }
 
 tasks.named('test') {
