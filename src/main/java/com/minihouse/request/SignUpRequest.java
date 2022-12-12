@@ -14,7 +14,6 @@ public class SignUpRequest {
     private String phone;
 
     public SignUpRequest() {
-
     }
 
     @Builder
