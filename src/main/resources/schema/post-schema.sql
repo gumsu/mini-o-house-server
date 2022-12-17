@@ -3,7 +3,7 @@ CREATE TABLE `posts`
 (
     `id`         bigint PRIMARY KEY AUTO_INCREMENT,
     `title`      varchar(255),
-    `content`    varchar(255),
+    `content`    text,
     `created_at` timestamp,
     `updated_at` timestamp,
     `user_id`    bigint
