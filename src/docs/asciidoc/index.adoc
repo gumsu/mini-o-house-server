@@ -6,3 +6,8 @@
 === User 생성
 
 operation::user-signup[snippets='http-request,http-response,request-fields']
+
+== Post-API
+
+=== Post 생성
+operation::post-create[snippets='http-request,http-response,request-fields']
