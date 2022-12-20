@@ -17,4 +17,10 @@ public class PostService {
         postRepository.save(post);
         return post.getId();
     }
+
+    public void update(Long id, String title, String content) {
+        Post foundPost = postRepository.findById(id);
+        foundPost.updatePost(title, content);
+        postRepository.update(foundPost);
+    }
 }
