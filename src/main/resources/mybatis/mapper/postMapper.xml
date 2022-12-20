@@ -10,4 +10,18 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
   </insert>
+
+  <select id="findById" resultType="com.minihouse.domain.Post">
+    SELECT *
+    FROM posts
+    WHERE id = #{id}
+  </select>
+
+  <update id="update">
+    UPDATE posts
+    SET updated_at = now(),
+        title      = #{title},
+        content    = #{content}
+    WHERE id = #{id}
+  </update>
 </mapper>
