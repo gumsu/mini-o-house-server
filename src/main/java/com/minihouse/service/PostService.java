@@ -1,0 +1,20 @@
+package com.minihouse.service;
+
+import com.minihouse.domain.Post;
+import com.minihouse.repository.PostRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@RequiredArgsConstructor
+@Service
+public class PostService {
+
+    private final PostRepository postRepository;
+
+    @Transactional
+    public Long create(Post post) {
+        postRepository.save(post);
+        return post.getId();
+    }
+}
