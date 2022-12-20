@@ -18,6 +18,7 @@ public class PostService {
         return post.getId();
     }
 
+    @Transactional
     public void update(Long id, String title, String content) {
         Post foundPost = postRepository.findById(id);
         foundPost.updatePost(title, content);
