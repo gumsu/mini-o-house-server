@@ -9,4 +9,8 @@ import org.springframework.stereotype.Repository;
 public interface PostRepository {
 
     void save(Post post);
+
+    Post findById(Long id);
+
+    void update(Post post);
 }
