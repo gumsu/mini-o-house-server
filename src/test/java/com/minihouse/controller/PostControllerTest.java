@@ -8,6 +8,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -15,7 +16,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.minihouse.domain.Post;
 import com.minihouse.request.PostCreateRequest;
+import com.minihouse.request.PostUpdateRequest;
 import com.minihouse.service.PostService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +46,7 @@ class PostControllerTest {
     private PostService postService;
 
     @Test
+    @DisplayName("게시글 등록 api")
     void registerPost() throws Exception {
         // given
         PostCreateRequest request = PostCreateRequest.builder()
@@ -65,6 +69,33 @@ class PostControllerTest {
                 requestFields(
                     fieldWithPath("title").description("제목"),
                     fieldWithPath("content").description("내용"))))
+            .andDo(print());
+    }
+
+    @Test
+    @DisplayName("게시글 수정 api")
+    void updatePost() throws Exception {
+        // given
+        PostUpdateRequest request = PostUpdateRequest.builder()
+            .title("수정한 제목")
+            .content("수정한 내용")
+            .build();
+
+        given(postService.create(any(Post.class))).willReturn(Long.valueOf(1));
+
+        // when
+        ResultActions result = mockMvc.perform(patch("/api/v1/posts/{id}", 1)
+            .content(objectMapper.writeValueAsString(request))
+            .contentType(MediaType.APPLICATION_JSON));
+
+        // then
+        result.andExpect(status().isOk())
+            .andDo(document("post-update",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                requestFields(
+                    fieldWithPath("title").description("수정한 제목"),
+                    fieldWithPath("content").description("수정한 내용"))))
             .andDo(print());
     }
 }

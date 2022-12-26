@@ -11,3 +11,6 @@ operation::user-signup[snippets='http-request,http-response,request-fields']
 
 === Post 생성
 operation::post-create[snippets='http-request,http-response,request-fields']
+
+=== Post 수정
+operation::post-update[snippets='http-request,http-response,request-fields']
