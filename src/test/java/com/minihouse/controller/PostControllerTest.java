@@ -8,6 +8,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -96,6 +97,33 @@ class PostControllerTest {
                 requestFields(
                     fieldWithPath("title").description("수정한 제목"),
                     fieldWithPath("content").description("수정한 내용"))))
+            .andDo(print());
+    }
+
+    @Test
+    @DisplayName("게시글 삭제 api")
+    void deletePost() throws Exception {
+        // given
+        PostCreateRequest request = PostCreateRequest.builder()
+            .title("제목입니다.")
+            .content("내용입니다.")
+            .build();
+
+        given(postService.create(any(Post.class))).willReturn(Long.valueOf(1));
+
+        // when
+        ResultActions result = mockMvc.perform(delete("/api/v1/posts/{id}", 1)
+            .content(objectMapper.writeValueAsString(request))
+            .contentType(MediaType.APPLICATION_JSON));
+
+        // then
+        result.andExpect(status().isOk())
+            .andDo(document("post-delete",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                requestFields(
+                    fieldWithPath("title").description("제목"),
+                    fieldWithPath("content").description("내용"))))
             .andDo(print());
     }
 }
