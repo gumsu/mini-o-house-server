@@ -13,4 +13,6 @@ public interface PostRepository {
     Post findById(Long id);
 
     void update(Post post);
+
+    void delete(Long id);
 }
