@@ -24,4 +24,9 @@ public class PostService {
         foundPost.updatePost(title, content);
         postRepository.update(foundPost);
     }
+
+    @Transactional
+    public void delete(Long id) {
+        postRepository.delete(id);
+    }
 }
