@@ -14,3 +14,6 @@ operation::post-create[snippets='http-request,http-response,request-fields']
 
 === Post 수정
 operation::post-update[snippets='http-request,http-response,request-fields']
+
+=== Post 삭제
+operation::post-delete[snippets='http-request,http-response,request-fields']
