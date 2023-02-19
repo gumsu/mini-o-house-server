@@ -29,4 +29,9 @@
     DELETE FROM posts
     WHERE id = #{id}
   </delete>
+
+  <select id="getAll" resultType="com.minihouse.domain.Post">
+    SELECT *
+    FROM posts
+  </select>
 </mapper>
