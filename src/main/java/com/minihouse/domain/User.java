@@ -28,4 +28,9 @@ public class User {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
+
+    public void convertToEncryptedPassword(String encryptedPassword) {
+        this.password = encryptedPassword;
+    }
+
 }
