@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.minihouse.domain.User;
+import com.minihouse.request.SignInRequest;
 import com.minihouse.request.SignUpRequest;
 import com.minihouse.service.UserService;
 import org.junit.jupiter.api.DisplayName;
@@ -20,6 +21,7 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -69,6 +71,63 @@ class UserControllerTest {
                     fieldWithPath("password").description("비밀번호"),
                     fieldWithPath("email").description("이메일"),
                     fieldWithPath("phone").description("전화번호"))))
+            .andDo(print());
+    }
+
+    @Test
+    @DisplayName("로그인 api")
+    void signIn() throws Exception {
+
+        // given
+        SignInRequest request = SignInRequest.builder()
+            .email("abc@test.com")
+            .password("1234")
+            .build();
+
+        MockHttpSession mockHttpSession = new MockHttpSession();
+
+        doNothing().when(userService).signIn(anyString(), anyString());
+
+        // when
+        ResultActions result = mockMvc.perform(post("/api/v1/users/sign-in")
+            .session(mockHttpSession)
+            .content(objectMapper.writeValueAsString(request))
+            .contentType(MediaType.APPLICATION_JSON));
+
+        // then
+        result.andExpect(status().isOk())
+            .andDo(document("user-signin",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                requestFields(
+                    fieldWithPath("email").description("이메일"),
+                    fieldWithPath("password").description("비밀번호"))))
+            .andDo(print());
+    }
+
+    @Test
+    @DisplayName("로그아웃 api")
+    void signOut() throws Exception {
+        // given
+        SignInRequest request = SignInRequest.builder()
+            .email("abc@test.com")
+            .password("1234")
+            .build();
+
+        MockHttpSession mockHttpSession = new MockHttpSession();
+        mockHttpSession.setAttribute("USER_EMAIL", request.getEmail());
+
+        doNothing().when(userService).signIn(anyString(), anyString());
+
+        // when
+        ResultActions result = mockMvc.perform(get("/api/v1/users/sign-out")
+            .session(mockHttpSession));
+
+        // then
+        result.andExpect(status().isOk())
+            .andDo(document("user-signout",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint())))
             .andDo(print());
     }
 }
