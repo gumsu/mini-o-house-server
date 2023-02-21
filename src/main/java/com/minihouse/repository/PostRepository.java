@@ -17,5 +17,5 @@ public interface PostRepository {
 
     void delete(Long id);
 
-    List<Post> getAll();
+    List<Post> getAll(int offset, int pageSize);
 }

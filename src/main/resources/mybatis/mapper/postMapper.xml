@@ -33,5 +33,7 @@
   <select id="getAll" resultType="com.minihouse.domain.Post">
     SELECT *
     FROM posts
+    LIMIT #{pageSize}
+    OFFSET #{offset}
   </select>
 </mapper>

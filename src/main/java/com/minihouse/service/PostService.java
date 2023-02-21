@@ -31,7 +31,8 @@ public class PostService {
         postRepository.delete(id);
     }
 
-    public List<Post> getAll(){
-        return postRepository.getAll();
+    public List<Post> getAll(int pageNumber, int pageSize){
+        int offset = pageNumber * pageSize;
+        return postRepository.getAll(offset, pageSize);
     }
 }
