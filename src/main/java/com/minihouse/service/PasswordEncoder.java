@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class PasswordEncoder {
 
-    private final String SHA_512 = "SHA-512";
+    private static final String SHA_512 = "SHA-512";
 
     public String hashPassword(String originPassword) {
         return createHashPassword(originPassword, SHA_512);
@@ -27,7 +27,7 @@ public class PasswordEncoder {
             messageDigest.update(originPassword.getBytes(StandardCharsets.UTF_8));
             hashPassword = String.format("%0128x", new BigInteger(1, messageDigest.digest()));
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException("Unable to create hash: " + e.getMessage(), e);
         }
         return hashPassword;
     }
