@@ -3,6 +3,7 @@ package com.minihouse.service;
 import com.minihouse.domain.User;
 import com.minihouse.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,8 +18,8 @@ public class UserService {
     public Long signUp(User user) {
         validSignUpUser(user);
 
-        String hashedPassword = passwordEncoder.hashPassword(user.getPassword());
-        user.convertToEncryptedPassword(hashedPassword);
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.convertToEncryptedPassword(encodedPassword);
 
         userRepository.save(user);
 

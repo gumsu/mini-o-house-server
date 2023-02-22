@@ -1,7 +1,6 @@
 package com.minihouse.service;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
@@ -17,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @ExtendWith(MockitoExtension.class)
 class UserSignInServiceTest {
@@ -50,14 +50,14 @@ class UserSignInServiceTest {
             .build();
 
         given(userRepository.findByEmail(anyString())).willReturn(user);
-        given(passwordEncoder.isMatched(anyString(), anyString())).willReturn(true);
+        given(passwordEncoder.matches(anyString(), anyString())).willReturn(true);
 
         // when
         userSignInService.signIn(signInRequest.getEmail(), signInRequest.getPassword());
 
         // then
         verify(userRepository).findByEmail(eq(signInRequest.getEmail()));
-        verify(passwordEncoder).isMatched(eq(signInRequest.getPassword()), eq(user.getPassword()));
+        verify(passwordEncoder).matches(eq(signInRequest.getPassword()), eq(user.getPassword()));
     }
 
     @Test
@@ -97,7 +97,7 @@ class UserSignInServiceTest {
             .build();
 
         given(userRepository.findByEmail(anyString())).willReturn(user);
-        given(passwordEncoder.isMatched(anyString(), anyString())).willReturn(false);
+        given(passwordEncoder.matches(anyString(), anyString())).willReturn(false);
 
         // expected
         assertThatThrownBy(() -> userSignInService.signIn(signInRequest.getEmail() , signInRequest.getPassword()))
