@@ -32,7 +32,7 @@ class UserSignInServiceTest {
     private UserSignInService userSignInService;
 
     @Test
-    @DisplayName("로그인을 할 수 있다.")
+    @DisplayName("저장된 유저 정보와 유저가 요청한 정보가 일치하면 로그인에 성공한다.")
     void signIn() {
 
         // given
@@ -79,7 +79,7 @@ class UserSignInServiceTest {
     }
 
     @Test
-    @DisplayName("비밀번호를 잘못 입력한 경우 로그인할 수 없다.")
+    @DisplayName("비밀번호를 잘못 입력한 경우 로그인 할 수 없다.")
     void canNotSignInInputWrongPassword() {
 
         // given
