@@ -12,12 +12,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
 
     @Mock
     private UserRepository userRepository;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     @InjectMocks
     private UserService userService;
@@ -36,6 +40,7 @@ class UserServiceTest {
         User user = signUpRequest.toEntity();
 
         doNothing().when(userRepository).save(isA(User.class));
+        given(passwordEncoder.encode(anyString())).willReturn(anyString());
 
         // when
         Long userId = userService.signUp(user);
@@ -67,4 +72,5 @@ class UserServiceTest {
         then(userRepository).should().findByEmail(user.getEmail());
         then(userRepository).should(never()).save(user);
     }
+
 }

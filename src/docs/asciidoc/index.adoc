@@ -7,6 +7,15 @@
 
 operation::user-signup[snippets='http-request,http-response,request-fields']
 
+=== User 로그인
+
+operation::user-signin[snippets='http-request,http-response,request-fields']
+
+=== User 로그아웃
+
+operation::user-signout[snippets='http-request,http-response']
+
+
 == Post-API
 
 === Post 생성
