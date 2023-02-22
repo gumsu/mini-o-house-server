@@ -29,4 +29,11 @@
     DELETE FROM posts
     WHERE id = #{id}
   </delete>
+
+  <select id="getPage" resultType="com.minihouse.domain.Post">
+    SELECT *
+    FROM posts
+    LIMIT #{pageSize}
+    OFFSET #{offset}
+  </select>
 </mapper>

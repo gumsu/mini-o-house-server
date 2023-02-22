@@ -2,6 +2,7 @@ package com.minihouse.service;
 
 import com.minihouse.domain.Post;
 import com.minihouse.repository.PostRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,5 +29,10 @@ public class PostService {
     @Transactional
     public void delete(Long id) {
         postRepository.delete(id);
+    }
+
+    public List<Post> getPage(int pageNumber, int pageSize){
+        int offset = pageNumber * pageSize;
+        return postRepository.getPage(offset, pageSize);
     }
 }
