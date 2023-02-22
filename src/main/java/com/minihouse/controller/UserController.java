@@ -4,6 +4,7 @@ import com.minihouse.domain.User;
 import com.minihouse.request.SignInRequest;
 import com.minihouse.request.SignUpRequest;
 import com.minihouse.service.UserService;
+import com.minihouse.service.UserSignInService;
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpRequest;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private final UserService userService;
+    private final UserSignInService userSignInService;
 
     @PostMapping("/sign-up")
     public Long signUp(@RequestBody SignUpRequest request) {
@@ -30,7 +32,7 @@ public class UserController {
 
     @PostMapping("/sign-in")
     public ResponseEntity<HttpRequest> signIn(@RequestBody SignInRequest request, HttpSession session) {
-        userService.signIn(request.getEmail(), request.getPassword());
+        userSignInService.signIn(request.getEmail(), request.getPassword());
         session.setAttribute("USER_EMAIL", request.getEmail());
         return ResponseEntity.status(HttpStatus.OK).build();
     }
