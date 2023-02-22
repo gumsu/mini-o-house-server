@@ -3,6 +3,7 @@ package com.minihouse.repository;
 import com.minihouse.domain.Post;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 @Mapper
@@ -17,5 +18,5 @@ public interface PostRepository {
 
     void delete(Long id);
 
-    List<Post> getAll(int offset, int pageSize);
+    List<Post> getPage(@Param("offset") int offset, @Param("pageSize") int pageSize);
 }

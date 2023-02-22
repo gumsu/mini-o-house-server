@@ -10,14 +10,14 @@ public class PostSearchResponse {
     private Long id;
     private String title;
     private String content;
-    private LocalDateTime createdDate;
+    private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     public PostSearchResponse(Post entity) {
         this.id = entity.getId();
         this.title = entity.getTitle();
         this.content = entity.getContent();
-        this.createdDate = entity.getCreatedAt();
+        this.createdAt = entity.getCreatedAt();
         this.updatedAt = entity.getUpdatedAt();
     }
 }

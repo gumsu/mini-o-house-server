@@ -52,7 +52,7 @@ public class PostController {
         @RequestParam(name = "pageNumber", defaultValue = "0") int pageNumber,
         @RequestParam(name = "pageSize", defaultValue = "5") int pageSize) {
 
-        List<PostSearchResponse> response = postService.getAll(pageNumber, pageSize)
+        List<PostSearchResponse> response = postService.getPage(pageNumber, pageSize)
             .stream()
             .map(PostSearchResponse::new)
             .collect(Collectors.toList());
