@@ -9,4 +9,8 @@ import org.springframework.stereotype.Repository;
 public interface CommentRepository {
 
     void save(Comment comment);
+
+    Comment findById(Long id);
+
+    void update(Comment comment);
 }
