@@ -1,6 +1,7 @@
 package com.minihouse.service;
 
 import com.minihouse.domain.User;
+import com.minihouse.exception.DuplicatedEmailException;
 import com.minihouse.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,7 +30,7 @@ public class UserService {
     private void validSignUpUser(User user) {
         User findUser = userRepository.findByEmail(user.getEmail());
         if (findUser != null) {
-            throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
+            throw new DuplicatedEmailException("이미 존재하는 이메일입니다.");
         }
     }
 }
