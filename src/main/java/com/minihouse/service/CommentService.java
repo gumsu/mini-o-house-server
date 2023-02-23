@@ -17,12 +17,12 @@ public class CommentService {
 
     @Transactional
     public Long create(Comment comment) {
-        validCreateComment(comment);
+        verifyExistPost(comment);
         commentRepository.save(comment);
         return comment.getId();
     }
 
-    private void validCreateComment(Comment comment) {
+    private void verifyExistPost(Comment comment) {
         Post findPostById = postRepository.findById(comment.getPostId());
         if (findPostById == null) {
             throw new IllegalArgumentException("존재하지 않는 게시글입니다.");
