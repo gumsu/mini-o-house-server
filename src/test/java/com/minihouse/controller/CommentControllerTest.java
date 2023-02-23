@@ -57,7 +57,7 @@ class CommentControllerTest {
         given(commentService.create(any(Comment.class))).willReturn(any());
 
         // when
-        ResultActions result = mockMvc.perform(post("/api/v1/posts/{postId}", 1)
+        ResultActions result = mockMvc.perform(post("/api/v1/posts/{postId}/comments", 1)
             .content(objectMapper.writeValueAsString(request))
             .contentType(MediaType.APPLICATION_JSON));
 
