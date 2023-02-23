@@ -22,6 +22,13 @@ public class CommentService {
         return comment.getId();
     }
 
+    @Transactional
+    public void update(Long postId, Long commentId, String content) {
+        Comment findCommentById = commentRepository.findById(commentId);
+        findCommentById.updateComment(content);
+        commentRepository.update(findCommentById);
+    }
+
     private void verifyExistPost(Comment comment) {
         Post findPostById = postRepository.findById(comment.getPostId());
         if (findPostById == null) {
