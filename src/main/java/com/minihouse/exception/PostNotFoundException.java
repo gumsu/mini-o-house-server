@@ -1,6 +1,6 @@
 package com.minihouse.exception;
 
-public class PostNotFoundException extends RuntimeException {
+public class PostNotFoundException extends BaseException {
 
     public PostNotFoundException() {
         super();
@@ -12,5 +12,10 @@ public class PostNotFoundException extends RuntimeException {
 
     public PostNotFoundException(String message, Throwable cause) {
         super(message, cause);
+    }
+
+    @Override
+    public int getStatusCode() {
+        return 404;
     }
 }

@@ -2,6 +2,7 @@ package com.minihouse.service;
 
 import com.minihouse.domain.Comment;
 import com.minihouse.domain.Post;
+import com.minihouse.exception.PostNotFoundException;
 import com.minihouse.repository.CommentRepository;
 import com.minihouse.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class CommentService {
     private void verifyExistPost(Comment comment) {
         Post findPostById = postRepository.findById(comment.getPostId());
         if (findPostById == null) {
-            throw new IllegalArgumentException("존재하지 않는 게시글입니다.");
+            throw new PostNotFoundException("게시글이 존재하지 않습니다.");
         }
     }
 }

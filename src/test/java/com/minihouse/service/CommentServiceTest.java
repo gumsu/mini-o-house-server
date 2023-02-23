@@ -8,6 +8,7 @@ import static org.mockito.Mockito.verify;
 
 import com.minihouse.domain.Comment;
 import com.minihouse.domain.Post;
+import com.minihouse.exception.PostNotFoundException;
 import com.minihouse.repository.CommentRepository;
 import com.minihouse.repository.PostRepository;
 import com.minihouse.request.CommentCreateRequest;
@@ -77,6 +78,6 @@ class CommentServiceTest {
 
         // expected
         assertThatThrownBy(() -> commentService.create(comment))
-            .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(PostNotFoundException.class);
     }
 }
