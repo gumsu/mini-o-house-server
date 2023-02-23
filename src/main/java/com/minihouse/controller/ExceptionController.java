@@ -1,6 +1,7 @@
 package com.minihouse.controller;
 
 import com.minihouse.exception.BaseException;
+import com.minihouse.exception.PasswordNotMatchedException;
 import com.minihouse.exception.PostNotFoundException;
 import com.minihouse.exception.UserNotFoundException;
 import com.minihouse.response.ErrorResponse;
@@ -20,6 +21,11 @@ public class ExceptionController {
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<?> userNotFoundException(UserNotFoundException e) {
         return response(HttpStatus.NOT_FOUND, e);
+    }
+
+    @ExceptionHandler(PasswordNotMatchedException.class)
+    public ResponseEntity<?> passwordNotMatchedException(PasswordNotMatchedException e) {
+        return response(HttpStatus.BAD_REQUEST, e);
     }
 
     private ResponseEntity<ErrorResponse> response(HttpStatus status, BaseException e) {

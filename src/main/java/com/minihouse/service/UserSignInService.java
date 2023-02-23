@@ -1,6 +1,7 @@
 package com.minihouse.service;
 
 import com.minihouse.domain.User;
+import com.minihouse.exception.PasswordNotMatchedException;
 import com.minihouse.exception.UserNotFoundException;
 import com.minihouse.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class UserSignInService {
         }
         boolean isMatched = passwordEncoder.matches(password, findUser.getPassword());
         if (!isMatched) {
-            throw new IllegalArgumentException("비밀번호가 다릅니다.");
+            throw new PasswordNotMatchedException("비밀번호가 다릅니다.");
         }
     }
 }
