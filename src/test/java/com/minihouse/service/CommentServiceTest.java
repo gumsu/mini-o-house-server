@@ -1,6 +1,8 @@
 package com.minihouse.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
@@ -11,6 +13,7 @@ import com.minihouse.domain.Post;
 import com.minihouse.repository.CommentRepository;
 import com.minihouse.repository.PostRepository;
 import com.minihouse.request.CommentCreateRequest;
+import com.minihouse.request.CommentUpdateRequest;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -78,5 +81,30 @@ class CommentServiceTest {
         // expected
         assertThatThrownBy(() -> commentService.create(comment))
             .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("댓글을 수정할 수 있다.")
+    void updateComment() {
+        // given
+        Long postId = 1L;
+
+        Comment comment = Comment.builder()
+            .postId(postId)
+            .content("테스트 댓글")
+            .userId(1L)
+            .build();
+
+        CommentUpdateRequest request = CommentUpdateRequest.builder()
+            .content("수정한 댓글")
+            .build();
+
+        given(commentRepository.findById(postId)).willReturn(comment);
+
+        // when
+        commentService.update(postId, 1L, request.getContent());
+
+        // then
+        assertThat(comment.getContent()).isEqualTo(request.getContent());
     }
 }
