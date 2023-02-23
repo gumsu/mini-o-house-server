@@ -26,3 +26,11 @@ operation::post-update[snippets='http-request,http-response,request-fields']
 
 === Post 삭제
 operation::post-delete[snippets='http-request,http-response,request-fields']
+
+
+== Comment-API
+
+=== Comment 생성
+operation::comment-create[snippets='http-request,http-response,request-fields']
+
+

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.minihouse.repository.CommentRepository">
+  <insert id="save" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO comments (content, created_at, post_id, user_id)
+    VALUES (#{content}, now(), #{postId}, #{userId})
+    <selectKey keyProperty="id" resultType="Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+  </insert>
+
+</mapper>
