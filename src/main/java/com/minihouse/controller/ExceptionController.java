@@ -2,6 +2,7 @@ package com.minihouse.controller;
 
 import com.minihouse.exception.BaseException;
 import com.minihouse.exception.PostNotFoundException;
+import com.minihouse.exception.UserNotFoundException;
 import com.minihouse.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,11 @@ public class ExceptionController {
 
     @ExceptionHandler(PostNotFoundException.class)
     public ResponseEntity<?> postNotFoundException(PostNotFoundException e) {
+        return response(HttpStatus.NOT_FOUND, e);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<?> userNotFoundException(UserNotFoundException e) {
         return response(HttpStatus.NOT_FOUND, e);
     }
 
