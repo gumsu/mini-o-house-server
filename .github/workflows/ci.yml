@@ -47,7 +47,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build With Gradle
-        run: ./gradlew build
+        run: ./gradlew build --stacktrace --info
 
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
