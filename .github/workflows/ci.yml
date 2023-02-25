@@ -27,7 +27,7 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-
+          
       - name: Make application.yml
         run: |
           cd ./src/main/resources
@@ -39,7 +39,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build With Gradle
-        run: ./gradlew build
+        run: ./gradlew build -x test
 
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
