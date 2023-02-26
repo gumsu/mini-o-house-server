@@ -5,15 +5,15 @@ import lombok.Getter;
 @Getter
 public abstract class BaseException extends RuntimeException {
 
-    public BaseException() {
+    protected BaseException() {
         super();
     }
 
-    public BaseException(String message) {
+    protected BaseException(String message) {
         super(message);
     }
 
-    public BaseException(String message, Throwable cause) {
+    protected BaseException(String message, Throwable cause) {
         super(message, cause);
     }
 
