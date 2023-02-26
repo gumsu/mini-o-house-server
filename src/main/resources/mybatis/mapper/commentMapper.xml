@@ -11,4 +11,16 @@
     </selectKey>
   </insert>
 
+  <select id="findById" resultType="com.minihouse.domain.Comment">
+    SELECT *
+    FROM comments
+    WHERE id = #{id}
+  </select>
+
+  <update id="update">
+    UPDATE comments
+    SET updated_at = now(),
+        content    = #{content}
+    WHERE id = #{id}
+  </update>
 </mapper>

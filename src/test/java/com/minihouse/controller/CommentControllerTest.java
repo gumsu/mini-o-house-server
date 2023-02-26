@@ -3,6 +3,7 @@ package com.minihouse.controller;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
@@ -16,6 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.minihouse.domain.Comment;
 import com.minihouse.request.CommentCreateRequest;
+import com.minihouse.request.CommentUpdateRequest;
 import com.minihouse.service.CommentService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -69,6 +71,31 @@ class CommentControllerTest {
                 requestFields(
                     fieldWithPath("content").description("댓글 내용"),
                     fieldWithPath("userId").description("유저 아이디"))))
+            .andDo(print());
+    }
+
+    @Test
+    @DisplayName("댓글 수정 api")
+    void updateComment() throws Exception {
+        // given
+        CommentUpdateRequest request = CommentUpdateRequest.builder()
+            .content("수정한 댓글")
+            .build();
+
+        doNothing().when(commentService).update(1L, 1L, request.getContent());
+
+        // when
+        ResultActions result = mockMvc.perform(post("/api/v1/posts/{postId}/comments/{commentId}", 1, 1)
+            .content(objectMapper.writeValueAsString(request))
+            .contentType(MediaType.APPLICATION_JSON));
+
+        // then
+        result.andExpect(status().isOk())
+            .andDo(document("comment-update",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                requestFields(
+                    fieldWithPath("content").description("수정한 댓글 내용"))))
             .andDo(print());
     }
 }

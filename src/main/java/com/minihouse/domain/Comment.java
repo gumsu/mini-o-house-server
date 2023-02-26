@@ -8,7 +8,7 @@ import lombok.Getter;
 public class Comment {
 
     private final Long id;
-    private final String content;
+    private String content;
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
     private final Long postId;
@@ -25,5 +25,9 @@ public class Comment {
         this.postId = postId;
         this.userId = userId;
         this.commentId = commentId;
+    }
+
+    public void updateComment(String content) {
+        this.content = content;
     }
 }

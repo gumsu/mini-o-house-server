@@ -33,4 +33,6 @@ operation::post-delete[snippets='http-request,http-response,request-fields']
 === Comment 생성
 operation::comment-create[snippets='http-request,http-response,request-fields']
 
+=== Comment 수정
+operation::comment-update[snippets='http-request,http-response,request-fields']
 
