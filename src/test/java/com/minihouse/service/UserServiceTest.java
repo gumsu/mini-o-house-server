@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
 import com.minihouse.domain.User;
+import com.minihouse.exception.DuplicatedEmailException;
 import com.minihouse.repository.UserRepository;
 import com.minihouse.request.SignUpRequest;
 import org.junit.jupiter.api.DisplayName;
@@ -67,7 +68,7 @@ class UserServiceTest {
 
         // expected
         assertThatThrownBy(() -> userService.signUp(user))
-            .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(DuplicatedEmailException.class);
 
         then(userRepository).should().findByEmail(user.getEmail());
         then(userRepository).should(never()).save(user);

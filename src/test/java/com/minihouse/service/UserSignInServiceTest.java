@@ -7,6 +7,8 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 import com.minihouse.domain.User;
+import com.minihouse.exception.PasswordNotMatchedException;
+import com.minihouse.exception.UserNotFoundException;
 import com.minihouse.repository.UserRepository;
 import com.minihouse.request.SignInRequest;
 import org.junit.jupiter.api.DisplayName;
@@ -74,7 +76,7 @@ class UserSignInServiceTest {
 
         // expected
         assertThatThrownBy(() -> userSignInService.signIn(signInRequest.getEmail() , signInRequest.getPassword()))
-            .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(UserNotFoundException.class);
 
     }
 
@@ -101,6 +103,6 @@ class UserSignInServiceTest {
 
         // expected
         assertThatThrownBy(() -> userSignInService.signIn(signInRequest.getEmail() , signInRequest.getPassword()))
-            .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(PasswordNotMatchedException.class);
     }
 }

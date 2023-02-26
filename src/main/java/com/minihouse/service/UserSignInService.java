@@ -1,6 +1,8 @@
 package com.minihouse.service;
 
 import com.minihouse.domain.User;
+import com.minihouse.exception.PasswordNotMatchedException;
+import com.minihouse.exception.UserNotFoundException;
 import com.minihouse.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,11 +22,11 @@ public class UserSignInService {
     private void validSignInUser(String email, String password) {
         User findUser = userRepository.findByEmail(email);
         if (findUser == null) {
-            throw new IllegalArgumentException("존재하지 않는 회원입니다.");
+            throw new UserNotFoundException("존재하지 않는 회원입니다.");
         }
         boolean isMatched = passwordEncoder.matches(password, findUser.getPassword());
         if (!isMatched) {
-            throw new IllegalArgumentException("비밀번호가 다릅니다.");
+            throw new PasswordNotMatchedException("비밀번호가 다릅니다.");
         }
     }
 }
