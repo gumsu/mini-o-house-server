@@ -12,7 +12,7 @@ public class Post {
     private String content;
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
-    private final Long userId;
+    private Long userId;
 
     @Builder
     public Post(Long id, String title, String content, LocalDateTime createdAt,
@@ -28,5 +28,9 @@ public class Post {
     public void updatePost(String title, String content) {
         this.title = title;
         this.content = content;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

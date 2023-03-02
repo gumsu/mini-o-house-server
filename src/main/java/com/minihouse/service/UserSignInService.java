@@ -15,11 +15,11 @@ public class UserSignInService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public void signIn(String email, String password) {
-        validSignInUser(email, password);
+    public User signIn(String email, String password) {
+        return validSignInUser(email, password);
     }
 
-    private void validSignInUser(String email, String password) {
+    private User validSignInUser(String email, String password) {
         User findUser = userRepository.findByEmail(email);
         if (findUser == null) {
             throw new UserNotFoundException("존재하지 않는 회원입니다.");
@@ -28,5 +28,6 @@ public class UserSignInService {
         if (!isMatched) {
             throw new PasswordNotMatchedException("비밀번호가 다릅니다.");
         }
+        return findUser;
     }
 }

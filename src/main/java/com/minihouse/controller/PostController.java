@@ -1,10 +1,12 @@
 package com.minihouse.controller;
 
+import com.minihouse.annotation.AuthUser;
 import com.minihouse.domain.Post;
 import com.minihouse.request.PostCreateRequest;
 import com.minihouse.request.PostUpdateRequest;
 import com.minihouse.response.PostSearchResponse;
 import com.minihouse.service.PostService;
+import com.minihouse.vo.AuthUserVO;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +30,9 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping()
-    public Long registerPost(@RequestBody PostCreateRequest request) {
+    public Long registerPost(@RequestBody PostCreateRequest request, @AuthUser AuthUserVO authUserVO) {
         Post post = request.toEntity();
+        post.setUserId(authUserVO.getId());
         return postService.create(post);
     }
 
