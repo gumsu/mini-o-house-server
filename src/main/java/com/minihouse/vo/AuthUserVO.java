@@ -1,5 +1,6 @@
 package com.minihouse.vo;
 
+import java.io.Serializable;
 import java.util.Objects;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 @Builder
 @RequiredArgsConstructor
 @Getter
-public class AuthUserVO {
+public class AuthUserVO implements Serializable {
 
     private final Long id;
     private final String name;
