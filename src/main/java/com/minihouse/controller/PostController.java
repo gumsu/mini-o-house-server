@@ -1,5 +1,6 @@
 package com.minihouse.controller;
 
+import com.minihouse.annotation.AuthAccount;
 import com.minihouse.annotation.AuthUser;
 import com.minihouse.domain.Post;
 import com.minihouse.request.PostCreateRequest;
@@ -29,6 +30,7 @@ public class PostController {
 
     private final PostService postService;
 
+    @AuthAccount
     @PostMapping()
     public Long registerPost(@RequestBody PostCreateRequest request, @AuthUser AuthUserVO authUserVO) {
         Post post = request.toEntity();
