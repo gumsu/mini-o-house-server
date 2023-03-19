@@ -19,6 +19,8 @@ import com.minihouse.domain.Post;
 import com.minihouse.request.PostCreateRequest;
 import com.minihouse.request.PostUpdateRequest;
 import com.minihouse.service.PostService;
+import com.minihouse.vo.AuthUserVO;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,6 +29,7 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -46,6 +49,17 @@ class PostControllerTest {
     @MockBean
     private PostService postService;
 
+    AuthUserVO authUserVO;
+
+    @BeforeEach
+    void setUp() {
+        authUserVO = AuthUserVO.builder()
+            .id(1L)
+            .email("abc@test.com")
+            .name("kim")
+            .build();
+    }
+
     @Test
     @DisplayName("게시글 등록 api")
     void registerPost() throws Exception {
@@ -57,8 +71,12 @@ class PostControllerTest {
 
         given(postService.create(any(Post.class))).willReturn(Long.valueOf(1));
 
+        MockHttpSession httpSession = new MockHttpSession();
+        httpSession.setAttribute("AUTH_USER", authUserVO);
+
         // when
         ResultActions result = mockMvc.perform(post("/api/v1/posts")
+            .session(httpSession)
             .content(objectMapper.writeValueAsString(request))
             .contentType(MediaType.APPLICATION_JSON));
 

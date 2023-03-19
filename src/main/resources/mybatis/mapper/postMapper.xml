@@ -5,7 +5,7 @@
 <mapper namespace="com.minihouse.repository.PostRepository">
   <insert id="save" useGeneratedKeys="true" keyProperty="id">
     INSERT INTO posts (title, content, created_at, user_id)
-    VALUES (#{title}, #{content}, now(), 1)
+    VALUES (#{title}, #{content}, now(), #{userId})
     <selectKey keyProperty="id" resultType="Long">
       SELECT LAST_INSERT_ID()
     </selectKey>

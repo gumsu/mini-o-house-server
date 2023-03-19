@@ -5,6 +5,7 @@ import com.minihouse.request.SignInRequest;
 import com.minihouse.request.SignUpRequest;
 import com.minihouse.service.UserService;
 import com.minihouse.service.UserSignInService;
+import com.minihouse.vo.AuthUserVO;
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpRequest;
@@ -32,8 +33,16 @@ public class UserController {
 
     @PostMapping("/sign-in")
     public ResponseEntity<HttpRequest> signIn(@RequestBody SignInRequest request, HttpSession session) {
-        userSignInService.signIn(request.getEmail(), request.getPassword());
-        session.setAttribute("USER_EMAIL", request.getEmail());
+        User user = userSignInService.signIn(request.getEmail(), request.getPassword());
+
+        AuthUserVO authUserVO = AuthUserVO.builder()
+            .id(user.getId())
+            .name(user.getName())
+            .email(user.getEmail())
+            .build();
+
+        session.setAttribute("AUTH_USER", authUserVO);
+
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
