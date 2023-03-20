@@ -14,6 +14,7 @@ import com.minihouse.request.SignInRequest;
 import com.minihouse.request.SignUpRequest;
 import com.minihouse.service.UserService;
 import com.minihouse.service.UserSignInService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -44,6 +45,19 @@ class UserControllerTest {
 
     @MockBean
     private UserSignInService userSignInService;
+
+    User user;
+
+    @BeforeEach
+    void setUp() {
+         user = User.builder()
+             .id(1L)
+             .name("kim")
+             .email("abc@test.com")
+             .password("1234")
+             .phone("010-0000-0000")
+             .build();
+    }
 
     @Test
     @DisplayName("회원가입 api")
@@ -90,7 +104,7 @@ class UserControllerTest {
 
         MockHttpSession mockHttpSession = new MockHttpSession();
 
-        doNothing().when(userSignInService).signIn(anyString(), anyString());
+        given(userSignInService.signIn(anyString(), anyString())).willReturn(user);
 
         // when
         ResultActions result = mockMvc.perform(post("/api/v1/users/sign-in")
@@ -121,7 +135,7 @@ class UserControllerTest {
         MockHttpSession mockHttpSession = new MockHttpSession();
         mockHttpSession.setAttribute("USER_EMAIL", request.getEmail());
 
-        doNothing().when(userSignInService).signIn(anyString(), anyString());
+        given(userSignInService.signIn(anyString(), anyString())).willReturn(user);
 
         // when
         ResultActions result = mockMvc.perform(get("/api/v1/users/sign-out")
