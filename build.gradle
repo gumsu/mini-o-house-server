@@ -3,6 +3,7 @@ plugins {
 	id 'org.springframework.boot' version '2.7.5'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 	id "org.asciidoctor.jvm.convert" version "3.3.2"
+	id 'jacoco'
 }
 
 group = 'com'
@@ -52,6 +53,21 @@ ext {
 
 test {
 	outputs.dir snippetsDir
+	finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+	dependsOn test
+
+	reports {
+		html.enabled true
+		csv.enabled true
+		xml.enabled true
+
+		xml.destination file("${buildDir}/jacoco/index.xml")
+		csv.destination file("${buildDir}/jacoco/index.csv")
+		html.destination file("${buildDir}/jacoco/index.html")
+	}
 }
 
 asciidoctor {
