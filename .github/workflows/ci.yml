@@ -78,3 +78,13 @@ jobs:
           --deployment-config-name CodeDeployDefault.AllAtOnce 
           --deployment-group-name develop 
           --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=$PROJECT_NAME/$GITHUB_SHA.zip
+
+      - name: Add coverage to PR
+          id: jacoco
+          uses: madrapps/jacoco-report@v1.3
+          with:
+            title: 📝 테스트 커버리지 리포트
+            paths: ${{ github.workspace }}/build/jacoco/index.xml
+            token: ${{ secrets.GITHUB_TOKEN }}
+            min-coverage-overall: 40
+            min-coverage-changed-files: 60
