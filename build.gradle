@@ -56,6 +56,21 @@ test {
 	finalizedBy jacocoTestReport
 }
 
+private excludeClassFilesForJacocoReport(classDirectories) {
+	classDirectories.setFrom(
+			files(classDirectories.files.collect {
+				fileTree(dir: it, excludes: [
+						'**/*Application*',
+						'**/*Exception*',
+						'**/request/**',
+						'**/response/**',
+						'**/domain/**',
+						'**/vo/**',
+				])
+			})
+	)
+}
+
 jacocoTestReport {
 	dependsOn test
 
@@ -68,6 +83,8 @@ jacocoTestReport {
 		csv.destination file("${buildDir}/jacoco/index.csv")
 		html.destination file("${buildDir}/jacoco/index.html")
 	}
+
+	excludeClassFilesForJacocoReport(classDirectories)
 }
 
 asciidoctor {
