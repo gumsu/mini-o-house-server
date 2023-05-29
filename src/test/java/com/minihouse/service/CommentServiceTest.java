@@ -108,4 +108,26 @@ class CommentServiceTest {
         // then
         assertThat(comment.getContent()).isEqualTo(request.getContent());
     }
+
+    @Test
+    @DisplayName("댓글을 삭제할 수 있다.")
+    void deleteComment() {
+        // given
+        Long postId = 1L;
+
+        Comment comment = Comment.builder()
+            .commentId(1L)
+            .postId(postId)
+            .content("테스트 댓글")
+            .userId(1L)
+            .build();
+
+        given(commentRepository.findById(comment.getCommentId())).willReturn(comment);
+
+        // when
+        commentService.delete(comment.getCommentId());
+
+        // then
+        verify(commentRepository).delete(comment);
+    }
 }

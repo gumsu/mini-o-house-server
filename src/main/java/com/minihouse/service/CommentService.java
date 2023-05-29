@@ -30,6 +30,12 @@ public class CommentService {
         commentRepository.update(findCommentById);
     }
 
+    @Transactional
+    public void delete(Long commentId) {
+        Comment findCommentById = commentRepository.findById(commentId);
+        commentRepository.delete(findCommentById);
+    }
+
     private void verifyExistPost(Comment comment) {
         Post findPostById = postRepository.findById(comment.getPostId());
         if (findPostById == null) {
