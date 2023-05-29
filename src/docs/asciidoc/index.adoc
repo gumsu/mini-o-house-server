@@ -36,3 +36,5 @@ operation::comment-create[snippets='http-request,http-response,request-fields']
 === Comment 수정
 operation::comment-update[snippets='http-request,http-response,request-fields']
 
+=== Comment 삭제
+operation::comment-delete[snippets='path-parameters']

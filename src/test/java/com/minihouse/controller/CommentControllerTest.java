@@ -5,11 +5,13 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -96,6 +98,30 @@ class CommentControllerTest {
                 preprocessResponse(prettyPrint()),
                 requestFields(
                     fieldWithPath("content").description("수정한 댓글 내용"))))
+            .andDo(print());
+    }
+
+    @Test
+    @DisplayName("댓글 삭제 api")
+    void deleteComment() throws Exception {
+        // given
+        CommentCreateRequest request = CommentCreateRequest.builder()
+            .content("테스트댓글")
+            .userId(1L)
+            .build();
+
+        given(commentService.create(any(Comment.class))).willReturn(any());
+
+        // when
+        ResultActions result = mockMvc.perform(delete("/api/v1/posts/{postId}/comments/{commentId}", 1, 1)
+            .contentType(MediaType.APPLICATION_JSON));
+
+        // then
+        result.andExpect(status().isOk())
+            .andDo(document("comment-delete",
+                pathParameters(
+                    parameterWithName("postId").description("게시글 ID")
+                    , parameterWithName("commentId").description("댓글 ID"))))
             .andDo(print());
     }
 }
